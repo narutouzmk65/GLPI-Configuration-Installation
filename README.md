@@ -53,6 +53,14 @@
   - [8.2 Creer un ticket d'incident](#82-creer-un-ticket-dincident)
   - [8.3 Creer un utilisateur technicien](#83-creer-un-utilisateur-technicien)
   - [8.4 Suivi et cloture du ticket](#84-suivi-et-cloture-du-ticket)
+- [Partie 9 - Style de rédaction et bonnes pratiques documentaires](#partie-9---style-de-rédaction-et-bonnes-pratiques-documentaires)
+  - [9.1 Principes généraux](#91-principes-généraux)
+  - [9.2 Formatage du texte](#92-formatage-du-texte)
+  - [9.3 Blocs de code](#93-blocs-de-code)
+  - [9.4 Tableaux](#94-tableaux)
+  - [9.5 Listes et puces](#95-listes-et-puces)
+  - [9.6 Alertes et encadrés](#96-alertes-et-encadrés)
+  - [9.7 Liens et références](#97-liens-et-références)
 
 ---
 
@@ -356,6 +364,12 @@ systemctl restart apache2
 > ```
 > Changer immédiatement tous les mots de passe par défaut !
 
+**Capture d'écran — Page de connexion GLPI :**
+
+![Page de connexion GLPI](screenshot_login.png)
+
+*Page de connexion GLPI 11 — saisir l'identifiant et le mot de passe pour accéder à l'interface.*
+
 ---
 
 ## Partie 5 - Installation de l'agent sur Debian
@@ -538,6 +552,18 @@ http://localhost:62354
 3. Vérifier que les postes clients apparaissent *(attendre 1-2 min après l'inventaire forcé)*
 4. Cliquer sur un poste pour voir le détail : matériel, logiciels, réseau, utilisateur
 
+**Capture d'écran — Tableau de bord GLPI :**
+
+![Tableau de bord GLPI](screenshot_dashboard.png)
+
+*Vue du tableau de bord administrateur : compteurs du parc (logiciels, ordinateurs, matériels réseau), statut des tickets et graphiques mensuels.*
+
+**Capture d'écran — Liste des ordinateurs (Parc > Ordinateurs) :**
+
+![Liste des ordinateurs dans GLPI](screenshot_computers.png)
+
+*Inventaire des postes remontés par les agents : nom, fabricant, numéro de série, type, système d'exploitation et date de dernière modification.*
+
 ---
 
 ### 7.5 Test 5 - Activer l'inventaire natif GLPI
@@ -604,7 +630,213 @@ Se connecter avec le compte `normal` et créer un ticket :
 4. Changer le statut : `En cours` → `Résolu`
 5. Renseigner la solution et **fermer le ticket**
 
+**Capture d'écran — Détail d'un ticket Helpdesk :**
+
+![Détail d'un ticket GLPI](screenshot_ticket_detail.png)
+
+*Vue détaillée d'un ticket : fil de conversation entre l'utilisateur et le technicien, informations de résolution (date d'ouverture, date de résolution, statut, urgence).*
+
+**Capture d'écran — Liste des tickets en cours :**
+
+![Liste des tickets GLPI](screenshot_tickets_list.png)
+
+*Vue de la file de tickets : filtrage par statut, tri par date de modification, priorité colorée, attribution au technicien responsable.*
+
 > ✅ Le ticket est clôturé avec le détail de la solution appliquée. L'historique est conservé dans GLPI pour analyse ultérieure.
+
+---
+
+## Partie 9 - Style de rédaction et bonnes pratiques documentaires
+
+Cette partie présente les conventions de style utilisées dans cette documentation ainsi que des exemples pratiques pour rédiger des documents techniques de qualité en Markdown.
+
+---
+
+### 9.1 Principes généraux
+
+Une bonne documentation technique doit respecter les règles suivantes :
+
+| Principe | Description |
+|----------|-------------|
+| **Clarté** | Phrases courtes, vocabulaire précis, pas d'ambiguïté |
+| **Cohérence** | Même terminologie tout au long du document |
+| **Hiérarchie** | Structure logique avec titres et sous-titres numérotés |
+| **Reproductibilité** | Les commandes doivent être copiables et fonctionnelles |
+| **Actualité** | Indiquer la version et la date de rédaction |
+
+---
+
+### 9.2 Formatage du texte
+
+Le Markdown supporte plusieurs niveaux de mise en valeur :
+
+| Syntaxe | Rendu | Usage recommandé |
+|---------|-------|-----------------|
+| `**texte**` | **texte** | Termes importants, avertissements |
+| `*texte*` | *texte* | Emphase légère, citations |
+| `` `commande` `` | `commande` | Commandes, noms de fichiers, chemins |
+| `~~texte~~` | ~~texte~~ | Contenu obsolète ou déprécié |
+
+**Exemples :**
+
+- Utilisez `**GLPI**` pour la première mention d'un outil : **GLPI**
+- Utilisez les backticks pour les chemins : `/var/www/glpi/public`
+- Mettez en italique les notes de bas de page : *Cette fonctionnalité est disponible depuis GLPI 10.*
+
+---
+
+### 9.3 Blocs de code
+
+Les blocs de code doivent toujours préciser le langage pour la coloration syntaxique.
+
+**Commandes Bash :**
+```bash
+# Commentaire explicatif
+apt update && apt upgrade -y
+systemctl status apache2
+```
+
+**Commandes SQL :**
+```sql
+CREATE DATABASE glpi CHARACTER SET utf8mb4;
+GRANT ALL PRIVILEGES ON glpi.* TO 'glpiuser'@'localhost';
+```
+
+**Fichiers de configuration Apache :**
+```apache
+<VirtualHost *:80>
+    ServerName glpi.local
+    DocumentRoot /var/www/glpi/public
+</VirtualHost>
+```
+
+**Commandes PowerShell / CMD :**
+```powershell
+winget install glpi-project.glpi-agent
+```
+
+> 💡 **Règle d'or :** toujours inclure un commentaire sur les commandes complexes ou non évidentes.
+
+---
+
+### 9.4 Tableaux
+
+Les tableaux sont indispensables pour comparer des options ou présenter des données structurées.
+
+**Structure recommandée :**
+
+```markdown
+| Colonne 1 | Colonne 2 | Colonne 3 |
+|-----------|-----------|-----------|
+| Valeur A  | Valeur B  | Valeur C  |
+```
+
+**Bonnes pratiques :**
+- Première ligne = en-têtes en **gras**
+- Largeurs de colonnes équilibrées
+- Pas plus de 5-6 colonnes pour rester lisible
+- Utiliser des émojis en en-tête pour les tableaux de synthèse (✅ ❌ ⚠️)
+
+**Exemple — Tableau de comparaison avec indicateurs visuels :**
+
+| Référentiel | Périmètre | Certification | Adopté par GLPI |
+|-------------|-----------|---------------|-----------------|
+| ITIL | Gestion des services IT | ✅ Oui | ✅ Oui |
+| COBIT | Gouvernance IT | ✅ Oui | ⚠️ Partiel |
+| CMMI | Maturité des processus | ✅ Oui | ❌ Non |
+| ISO 27001 | Sécurité de l'information | ✅ Oui | ⚠️ Partiel |
+
+---
+
+### 9.5 Listes et puces
+
+**Liste non ordonnée** (pour des éléments sans ordre particulier) :
+
+```markdown
+- Premier élément
+- Deuxième élément
+  - Sous-élément (2 espaces d'indentation)
+```
+
+**Liste ordonnée** (pour des étapes séquentielles) :
+
+```markdown
+1. Première étape
+2. Deuxième étape
+3. Troisième étape
+```
+
+**Liste de tâches** (checklists) :
+
+```markdown
+- [x] Tâche accomplie
+- [ ] Tâche à faire
+```
+
+Rendu :
+- [x] Installation du serveur GLPI terminée
+- [x] Agent Debian configuré
+- [ ] Certificat HTTPS en place
+- [ ] Mots de passe par défaut changés
+
+> ⚠️ Préférez les **listes ordonnées pour les procédures** (installation, configuration) et les **listes non ordonnées pour les inventaires** (fonctionnalités, composants).
+
+---
+
+### 9.6 Alertes et encadrés
+
+Les citations Markdown (`>`) permettent de créer des encadrés informatifs. Associés à des émojis, ils deviennent des alertes visuelles efficaces :
+
+**Information :**
+> ℹ️ Ceci est une note informative. Elle apporte un contexte supplémentaire sans être critique.
+
+**Conseil pratique :**
+> 💡 Ceci est un conseil ou une astuce pour faciliter la mise en œuvre.
+
+**Avertissement :**
+> ⚠️ Ceci est un avertissement. Lire attentivement avant de poursuivre.
+
+**Danger / Sécurité :**
+> 🔴 **CRITIQUE** — Cette action est irréversible. Effectuez une sauvegarde avant de continuer.
+
+**Succès / Validation :**
+> ✅ Étape validée. Vous pouvez passer à la suite.
+
+**Syntaxe utilisée :**
+```markdown
+> ℹ️ Message informatif
+> 💡 Conseil pratique
+> ⚠️ Avertissement
+> ✅ Validation
+```
+
+---
+
+### 9.7 Liens et références
+
+**Lien externe :**
+```markdown
+[Texte du lien](https://example.com)
+```
+
+**Lien interne (ancre Markdown) :**
+```markdown
+[Voir la partie installation](#partie-4---installation-du-serveur-glpi)
+```
+
+> ℹ️ Les ancres Markdown se génèrent automatiquement à partir du titre : minuscules, espaces remplacés par des tirets, caractères spéciaux supprimés.
+
+**Image avec légende :**
+```markdown
+![Texte alternatif](chemin/vers/image.png)
+*Légende de l'image en italique sous la balise.*
+```
+
+**Bonnes pratiques pour les liens :**
+- Toujours renseigner le texte alternatif des images (accessibilité)
+- Préférer des liens relatifs pour les ressources internes
+- Vérifier la validité des liens avant publication
+- Indiquer la date de consultation pour les sources externes
 
 ---
 
